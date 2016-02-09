@@ -52,6 +52,6 @@ public final class MessageResponseFactory {
   }
 
   public static MessageResponse createOkayResponse(JsonObject body) {
-    return new MessageResponse.Builder().successful().setStatusOkay().setResponseBody(body).build();
+    return new MessageResponse.Builder().successful().setStatusOkay().setContentTypeJson().setResponseBody(body).build();
   }
 }

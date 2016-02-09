@@ -7,5 +7,5 @@ import org.javalite.activejdbc.annotations.Table;
  * Created by ashish on 29/12/15.
  */
 @Table("metadata_reference")
-public class MetadataReference extends Model {
+public class AJEntityMetadataReference extends Model {
 }

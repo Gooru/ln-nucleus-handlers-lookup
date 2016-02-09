@@ -1,6 +1,7 @@
 package org.gooru.nucleus.handlers.lookup.processors;
 
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.gooru.nucleus.handlers.lookup.constants.MessageConstants;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.RepoBuilder;
@@ -19,7 +20,12 @@ class MessageProcessor implements Processor {
   private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
   private JsonObject prefs;
   private JsonObject request;
+
+  private String countryId;
+  private String keyword;
+  private String schoolDistrictId;
   private final Message<Object> message;
+  
 
   public MessageProcessor(Message<Object> message) {
     this.message = message;
@@ -35,8 +41,6 @@ class MessageProcessor implements Processor {
       }
       final String msgOp = message.headers().get(MessageConstants.MSG_HEADER_OP);
 
-      prefs = ((JsonObject) message.body()).getJsonObject(MessageConstants.MSG_KEY_PREFS);
-      request = ((JsonObject) message.body()).getJsonObject(MessageConstants.MSG_HTTP_BODY);
       switch (msgOp) {
         case MessageConstants.MSG_OP_LKUP_ACCESS_HAZARDS:
           result = processAccessHazards();
@@ -68,6 +72,18 @@ class MessageProcessor implements Processor {
         case MessageConstants.MSG_OP_LKUP_MOMENTS:
           result = processMomentsOfLearning();
           break;
+        case MessageConstants.MSG_OP_LKUP_COUNTRIES:
+          result = processCountries();
+          break;
+        case MessageConstants.MSG_OP_LKUP_STATES:
+          result = processStates(countryId);
+          break;
+        case MessageConstants.MSG_OP_LKUP_SCHOOLDISTRICTS:
+          result = processSchoolDistricts();
+          break;
+        case MessageConstants.MSG_OP_LKUP_SCHOOLS:
+          result = processSchools();
+          break;          
         default:
           LOGGER.error("Invalid operation type passed in, not able to handle");
           return MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.item.lookup"));
@@ -260,6 +276,27 @@ class MessageProcessor implements Processor {
     return response;
   }
 
+  private MessageResponse processCountries() {
+    validateKeywordParam();
+    return RepoBuilder.buildCountriesRepo().getCountries(this.keyword);
+  }
+  
+  private MessageResponse processStates(String countryId) {
+    validateKeywordParam();
+    return RepoBuilder.buildStatesRepo().getStates(countryId, this.keyword);
+  }
+  
+  private MessageResponse processSchoolDistricts() {
+    validateKeywordParam();
+    return RepoBuilder.buildSchoolDistrictsRepo().getSchoolDistricts(this.keyword);
+  }
+  private MessageResponse processSchools() {
+    validateKeywordParam();
+    validateSDParam();
+    return RepoBuilder.buildSchoolsRepo().getSchools(this.keyword, this.schoolDistrictId );
+  }
+  
+  
   private ExecutionResult<MessageResponse> validateAndInitialize() {
     if (message == null || !(message.body() instanceof JsonObject)) {
       LOGGER.error("Invalid message received, either null or body of message is not JsonObject ");
@@ -288,11 +325,58 @@ class MessageProcessor implements Processor {
       return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.payload")),
         ExecutionResult.ExecutionStatus.FAILED);
     }
+    
+    countryId = message.headers().get(MessageConstants.ID_COUNTRY);
 
     // All is well, continue processing
     return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
   }
+  
+  private ExecutionResult<MessageResponse> validateKeywordParam() {
+    JsonArray valueArray = null;
+    this.keyword = null;
+    LOGGER.info("in validateKeyword");
+    if (request.containsKey(MessageConstants.ID_KEYWORD)) {
+      valueArray = request.getJsonArray(MessageConstants.ID_KEYWORD);
+      if ( valueArray.size() != 1 ) {
+        return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.uri.keyword")),
+                ExecutionResult.ExecutionStatus.FAILED);
+      } else {
+        if ( valueArray.getString(0).length() < 3) {
+          return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.uri.keyword.length")),
+                  ExecutionResult.ExecutionStatus.FAILED);
+        }
+        this.keyword = valueArray.getString(0);
+        LOGGER.info("keyword {}", this.keyword);
+        LOGGER.info("valueArray {}", valueArray.toString());
+        return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
+      }
+    } else {
+      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.uri")),
+              ExecutionResult.ExecutionStatus.FAILED);
+    }    
+  }
+ 
 
+  private ExecutionResult<MessageResponse> validateSDParam() {
+    JsonArray valueArray = null;
+    this.schoolDistrictId = null;
+    if (request.containsKey(MessageConstants.ID_SCHOOLDISTRICT)){
+      valueArray = request.getJsonArray(MessageConstants.ID_SCHOOLDISTRICT);
+      if ( valueArray.size() != 1 ) {
+        return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.no.schooldistrict")),
+                ExecutionResult.ExecutionStatus.FAILED);
+      } else {
+        if ( valueArray.getString(0).length() < 3) {
+          return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.uri.keyword.length")),
+                  ExecutionResult.ExecutionStatus.FAILED);
+        }
+        this.schoolDistrictId = valueArray.getString(0);
+        return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
+      }
+    }
+    return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
+  }
 
   private boolean validateUser(String userId) {
     return !(userId == null || userId.isEmpty()) && (userId.equalsIgnoreCase(MessageConstants.MSG_USER_ANONYMOUS) || validateUuid(userId));

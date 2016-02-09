@@ -4,9 +4,6 @@ import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Created by ashish on 28/12/15.
- */
 public final class ProcessorCache {
   private static final ProcessorCache INSTANCE = new ProcessorCache();
   private static final Logger LOGGER = LoggerFactory.getLogger(ProcessorCache.class);
@@ -21,7 +18,7 @@ public final class ProcessorCache {
   private final CacheHolder momentsOfLearning;
   private final CacheHolder depthOfKnowledge;
   private final CacheHolder audience;
-
+ 
   private ProcessorCache() {
     this.readingLevels = new CacheHolder();
     this.mediaFeatures = new CacheHolder();
@@ -148,8 +145,8 @@ public final class ProcessorCache {
       this.audience.initialize(audience);
     }
   }
-
-  private static class CacheHolder {
+  
+ private static class CacheHolder {
     private final Object lock = new Object();
     private JsonObject cache;
     private volatile boolean initialized = false;

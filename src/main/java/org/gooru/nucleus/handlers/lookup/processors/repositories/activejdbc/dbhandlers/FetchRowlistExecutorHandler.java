@@ -2,7 +2,7 @@ package org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.dbh
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.entities.MetadataReference;
+import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.entities.AJEntityMetadataReference;
 import org.gooru.nucleus.handlers.lookup.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponseFactory;
@@ -24,7 +24,7 @@ public class FetchRowlistExecutorHandler implements DBHandler {
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    LazyList<MetadataReference> result = MetadataReference.findBySQL(sql);
+    LazyList<AJEntityMetadataReference> result = AJEntityMetadataReference.findBySQL(sql);
     JsonObject returnValue = new JsonObject().put(name, new JsonArray(result.toJson(false, fieldsInJson)));
     return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(returnValue), ExecutionResult.ExecutionStatus.SUCCESSFUL);
   }

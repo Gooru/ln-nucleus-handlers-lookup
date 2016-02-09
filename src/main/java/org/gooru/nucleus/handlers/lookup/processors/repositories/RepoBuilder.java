@@ -18,4 +18,21 @@ public final class RepoBuilder {
   public static Cen21SkillsRepo buildCen21SkillsRepo() {
     return ActiveJdbcRepoBuilder.buildCen21SkillsRepo();
   }
+  
+  public static CountryRepo buildCountriesRepo() {
+    return ActiveJdbcRepoBuilder.buildCountriesRepo();
+  }
+  
+  public static StateRepo buildStatesRepo() {
+    return ActiveJdbcRepoBuilder.buildStatesRepo();
+  }
+  
+  public static SchoolDistrictRepo buildSchoolDistrictsRepo() {
+    return ActiveJdbcRepoBuilder.buildSchoolDistrictsRepo();
+  }
+  
+  public static SchoolRepo buildSchoolsRepo() {
+    return ActiveJdbcRepoBuilder.buildSchoolsRepo();
+  }
+  
 }

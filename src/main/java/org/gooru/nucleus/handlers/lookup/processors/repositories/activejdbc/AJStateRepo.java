@@ -1,18 +1,18 @@
 package org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc;
 
-import org.gooru.nucleus.handlers.lookup.processors.repositories.Cen21SkillsRepo;
+import org.gooru.nucleus.handlers.lookup.processors.repositories.StateRepo;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.dbhandlers.DBHandlerBuilder;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.transactions.TransactionExecutor;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AJCen21SkillsRepo implements Cen21SkillsRepo {
-  private static final Logger LOGGER = LoggerFactory.getLogger(AJCen21SkillsRepo.class);
+public class AJStateRepo implements StateRepo {
+  private static final Logger LOGGER = LoggerFactory.getLogger(AJStateRepo.class);
 
   @Override
-  public MessageResponse getCen21Skills() {
+  public MessageResponse getStates(String countryId, String query) {
     LOGGER.info("In handlers");
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.build21CenSkillsHandlerBuilder());
+    return TransactionExecutor.executeTransaction(DBHandlerBuilder.statesHandlerBuilder(countryId, query));
   }
 }
