@@ -35,9 +35,7 @@ public final class MessageConstants {
   public static final String MSG_OP_LKUP_STATES = "states";
   public static final String MSG_OP_LKUP_SCHOOLDISTRICTS = "school-districts";
   public static final String MSG_OP_LKUP_SCHOOLS = "schools";
-  public static final String ID_COUNTRY = "countryId";
-  public static final String ID_SCHOOLDISTRICT = "school_district_id";
-  public static final String ID_KEYWORD = "keyword";
+ 
 
   // Containers for different responses
   public static final String RESP_CONTAINER_MBUS = "mb.container";
