@@ -1,56 +1,56 @@
 package org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.dbhandlers;
 
-import java.util.UUID;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
+import org.gooru.nucleus.handlers.lookup.constants.HelperConstants;
+import org.gooru.nucleus.handlers.lookup.constants.MessageConstants;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.entities.AJEntitySchool;
 import org.gooru.nucleus.handlers.lookup.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponseFactory;
 import org.javalite.activejdbc.LazyList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 
 class SchoolHandler implements DBHandler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SchoolHandler.class);
   private final String keyword;
   private final String schoolDistrictId;
+  private final int limit;
+  private final int offset;
+  private final String[] RESPONSE_FIELDS = { "id", "name", "code" };
+  private final String LIST_SCHOOL = "name ilike ? AND school_district_id = ?::uuid";
+  private final String LIST_SCHOOL_FLT_BY_SCHOOL_DISTRICT = "school_district_id = ?::uuid";
+  private final String LIST_SCHOOL_FLT_BY_QUERY = "name ilike ?";
 
-  public SchoolHandler(String keyword, String schoolDistrictId) {
+  public SchoolHandler(String keyword, String schoolDistrictId, int limit, int offset) {
     this.keyword = keyword;
     this.schoolDistrictId = schoolDistrictId;
+    this.limit = limit;
+    this.offset = offset;
   }
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
     JsonObject returnValue = null;
-    UUID school_district_id = null;
-    String schooldistrict_keyword  = "";
     LazyList<AJEntitySchool> result = null;
-    if (keyword == null || keyword.isEmpty()) {
-      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(), ExecutionResult.ExecutionStatus.FAILED);
-    }
-    
-    schooldistrict_keyword = "%" + keyword + "%";
-    if ( this.schoolDistrictId == null ) {
-      LOGGER.debug("one param 1. {} " , keyword);
-      result = AJEntitySchool.where("name ilike ?" , schooldistrict_keyword);
-      returnValue = new JsonObject().put("school-districts", new JsonArray(result.toJson(false, "id", "name", "code")));
-      return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(returnValue), ExecutionResult.ExecutionStatus.SUCCESSFUL);
-    } else if ( this.schoolDistrictId != null ) {
-      school_district_id = UUID.fromString(schoolDistrictId);
-      LOGGER.debug("two params 2. {} {}" , keyword, school_district_id);
-      result = AJEntitySchool.where("name ilike ? AND school_district_id = ?::uuid" , schooldistrict_keyword, school_district_id);
-      returnValue = new JsonObject().put("school-districts", new JsonArray(result.toJson(false, "id", "name", "code")));
-      return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(returnValue), ExecutionResult.ExecutionStatus.SUCCESSFUL);
+    if (keyword != null && !keyword.isEmpty() && schoolDistrictId != null) {
+      result =
+          AJEntitySchool.where(LIST_SCHOOL, HelperConstants.PRECENTAGE + keyword + HelperConstants.PRECENTAGE, schoolDistrictId).limit(limit)
+              .offset(offset).orderBy(HelperConstants.NAME);
+    } else if (keyword != null && !keyword.isEmpty()) {
+      result =
+          AJEntitySchool.where(LIST_SCHOOL_FLT_BY_QUERY, HelperConstants.PRECENTAGE + keyword + HelperConstants.PRECENTAGE).limit(limit)
+              .offset(offset).orderBy(HelperConstants.NAME);
+    } else if (schoolDistrictId != null) {
+      result = AJEntitySchool.where(LIST_SCHOOL_FLT_BY_SCHOOL_DISTRICT, schoolDistrictId).limit(limit).offset(offset).orderBy(HelperConstants.NAME);
     } else {
-      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(), ExecutionResult.ExecutionStatus.FAILED);
+      result = AJEntitySchool.findAll().limit(limit).offset(offset).orderBy(HelperConstants.NAME);
     }
+    returnValue = new JsonObject().put(MessageConstants.MSG_OP_LKUP_SCHOOLS, new JsonArray(result.toJson(false, RESPONSE_FIELDS)));
+    return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(returnValue), ExecutionResult.ExecutionStatus.SUCCESSFUL);
+
   }
-  
+
   @Override
   public boolean handlerReadOnly() {
     return true;

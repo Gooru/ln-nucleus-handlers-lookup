@@ -6,5 +6,5 @@ import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
  */
 public interface SchoolDistrictRepo {
 
-  MessageResponse getSchoolDistricts(String keyword);
+  MessageResponse getSchoolDistricts(String keyword, String stateId, int limit, int offset);
 }

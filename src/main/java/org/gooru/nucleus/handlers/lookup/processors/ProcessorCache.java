@@ -168,9 +168,6 @@ public final class ProcessorCache {
       }
     }
 
-    public void reset() {
-      this.initialized = false;
-    }
 
     public JsonObject getCachedValue() {
       if (this.cache == null) {

@@ -13,20 +13,20 @@ public final class DBHandlerBuilder {
     return new FetchRowlistExecutorHandler(name, sql, fieldsInJson);
   }
 
-  public static DBHandler schoolHandlerBuilder(String keyword, String schoolDistrictId) {
-    return new SchoolHandler(keyword, schoolDistrictId);
+  public static DBHandler schoolHandlerBuilder(String keyword, String schoolDistrictId, int limit, int offset) {
+    return new SchoolHandler(keyword, schoolDistrictId, limit, offset);
   }
 
-  public static DBHandler schoolDistrictHandlerBuilder(String keyword) {
-    return new SchoolDistrictHandler(keyword);
+  public static DBHandler schoolDistrictHandlerBuilder(String keyword, String stateId, int limit, int offset) {
+    return new SchoolDistrictHandler(keyword, stateId, limit , offset);
   }
 
-  public static DBHandler statesHandlerBuilder(String countryId, String keyword) {
-    return new StatesHandler(countryId, keyword);
+  public static DBHandler statesHandlerBuilder(String countryId, String keyword, int limit, int offset) {
+    return new StatesHandler(countryId, keyword, limit, offset);
   }
 
-  public static DBHandler countriesHandlerBuilder(String keyword) {
-    return new CountriesHandler(keyword);
+  public static DBHandler countriesHandlerBuilder(String keyword, int limit, int offset) {
+    return new CountriesHandler(keyword, limit, offset);
   }
 
   public static DBHandler build21CenSkillsHandlerBuilder() {

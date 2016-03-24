@@ -1,36 +1,40 @@
 package org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.dbhandlers;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+
+import org.gooru.nucleus.handlers.lookup.constants.HelperConstants;
+import org.gooru.nucleus.handlers.lookup.constants.MessageConstants;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.entities.AJEntityCountry;
 import org.gooru.nucleus.handlers.lookup.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponseFactory;
 import org.javalite.activejdbc.LazyList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 
 class CountriesHandler implements DBHandler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(CountriesHandler.class);
   private final String keyword;
+  private final int limit;
+  private final int offset;
+  private final String[] RESPONSE_FIELDS = { "id", "name", "code" };
+  private final String LIST_COUNTRY_FLT_BY_QUERY = "name ilike ?";
 
-  public CountriesHandler(String keyword) {
+  public CountriesHandler(String keyword, int limit, int offset) {
     this.keyword = keyword;
+    this.limit = limit;
+    this.offset = offset;
   }
-  
+
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
     JsonObject returnValue = null;
-    LOGGER.debug(keyword);
-    if (keyword == null || keyword.isEmpty()) {
-      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(), ExecutionResult.ExecutionStatus.FAILED);
+    LazyList<AJEntityCountry> result = null;
+    if (keyword != null && !keyword.isEmpty()) {
+      result = AJEntityCountry.where(LIST_COUNTRY_FLT_BY_QUERY, HelperConstants.PRECENTAGE + keyword + HelperConstants.PRECENTAGE).limit(limit).offset(offset).orderBy(HelperConstants.NAME);
+    } else {
+      result = AJEntityCountry.findAll().limit(limit).offset(offset).orderBy(HelperConstants.NAME);
     }
-    String country_keyword = "%" + keyword + "%";
-    LOGGER.debug(country_keyword);
-    LazyList<AJEntityCountry> result = AJEntityCountry.where("name ilike ? ", country_keyword);
-    returnValue = new JsonObject().put("countries", new JsonArray(result.toJson(true, "id", "name", "code")));
+    returnValue = new JsonObject().put(MessageConstants.MSG_OP_LKUP_COUNTRIES, new JsonArray(result.toJson(true, RESPONSE_FIELDS)));
     return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(returnValue), ExecutionResult.ExecutionStatus.SUCCESSFUL);
   }
 
@@ -39,4 +43,3 @@ class CountriesHandler implements DBHandler {
     return true;
   }
 }
-
