@@ -8,7 +8,7 @@ import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 public class AJStateRepo implements StateRepo {
 
   @Override
-  public MessageResponse getStates(String countryId, String query, int limit, int offset) {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.statesHandlerBuilder(countryId, query, limit, offset));
+  public MessageResponse getStates(String countryId, String query) {
+    return TransactionExecutor.executeTransaction(DBHandlerBuilder.statesHandlerBuilder(countryId, query));
   }
 }

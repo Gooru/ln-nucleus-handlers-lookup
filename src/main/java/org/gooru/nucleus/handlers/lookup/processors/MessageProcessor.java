@@ -280,12 +280,12 @@ class MessageProcessor implements Processor {
 
   private MessageResponse processCountries() {
     getRequestParam();
-    return RepoBuilder.buildCountriesRepo().getCountries(this.keyword, this.limit, this.offset);
+    return RepoBuilder.buildCountriesRepo().getCountries(this.keyword);
   }
 
   private MessageResponse processStates(String countryId) {
     getRequestParam();
-    return RepoBuilder.buildStatesRepo().getStates(countryId, this.keyword, this.limit, this.offset);
+    return RepoBuilder.buildStatesRepo().getStates(countryId, this.keyword);
   }
 
   private MessageResponse processSchoolDistricts() {

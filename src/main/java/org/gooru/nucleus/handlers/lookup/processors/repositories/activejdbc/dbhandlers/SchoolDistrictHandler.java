@@ -34,13 +34,13 @@ class SchoolDistrictHandler implements DBHandler {
     LazyList<AJEntitySchoolDistrict> result = null;
     if (keyword != null && !keyword.isEmpty() && stateId != null) {
       result =
-          AJEntitySchoolDistrict.where(LIST_SCHOOL_DISTRICT, stateId, HelperConstants.PRECENTAGE + keyword + HelperConstants.PRECENTAGE).limit(limit)
+          AJEntitySchoolDistrict.where(LIST_SCHOOL_DISTRICT, stateId, keyword + HelperConstants.PRECENTAGE).limit(limit)
               .offset(offset).orderBy(HelperConstants.NAME);
     } else if (stateId != null) {
       result = AJEntitySchoolDistrict.where(LIST_SCHOOL_DISTRICT_FLT_BY_STATE, stateId).limit(limit).offset(offset).orderBy(HelperConstants.NAME);
     } else if (keyword != null && !keyword.isEmpty()) {
       result =
-          AJEntitySchoolDistrict.where(LIST_SCHOOL_DISTRICT_FLT_BY_QUERY, HelperConstants.PRECENTAGE + keyword + HelperConstants.PRECENTAGE)
+          AJEntitySchoolDistrict.where(LIST_SCHOOL_DISTRICT_FLT_BY_QUERY, keyword + HelperConstants.PRECENTAGE)
               .limit(limit).offset(offset).orderBy(HelperConstants.NAME);
     } else {
       result = AJEntitySchoolDistrict.findAll().limit(limit).offset(offset).orderBy(HelperConstants.NAME);

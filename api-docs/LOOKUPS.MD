@@ -26,8 +26,7 @@ Features
 | Name | Comments |
 |------------------------|--------|
 | keyword | optional |
-| limit | optional, default value 20 |
-| offset | optional, default value 0 |
+
 
 **Authorization Header**
 
@@ -59,8 +58,7 @@ curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1OD
 | Name | Comments |
 |------------------------|--------|
 | keyword | optional |
-| limit | optional, default value 20 |
-| offset | optional, default value 0 |
+
 
 **Authorization Header**
 

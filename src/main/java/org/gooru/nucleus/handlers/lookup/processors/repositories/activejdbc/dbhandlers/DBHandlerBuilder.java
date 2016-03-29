@@ -21,12 +21,12 @@ public final class DBHandlerBuilder {
     return new SchoolDistrictHandler(keyword, stateId, limit , offset);
   }
 
-  public static DBHandler statesHandlerBuilder(String countryId, String keyword, int limit, int offset) {
-    return new StatesHandler(countryId, keyword, limit, offset);
+  public static DBHandler statesHandlerBuilder(String countryId, String keyword) {
+    return new StatesHandler(countryId, keyword);
   }
 
-  public static DBHandler countriesHandlerBuilder(String keyword, int limit, int offset) {
-    return new CountriesHandler(keyword, limit, offset);
+  public static DBHandler countriesHandlerBuilder(String keyword) {
+    return new CountriesHandler(keyword);
   }
 
   public static DBHandler build21CenSkillsHandlerBuilder() {
