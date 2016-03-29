@@ -5,5 +5,5 @@ import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
  * Created by ashish on 29/12/15.
  */
 public interface CountryRepo {
-  MessageResponse getCountries(String keyword, int limit, int offset);
+  MessageResponse getCountries(String keyword);
 }

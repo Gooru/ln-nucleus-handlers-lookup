@@ -35,12 +35,12 @@ class SchoolHandler implements DBHandler {
     LazyList<AJEntitySchool> result = null;
     if (keyword != null && !keyword.isEmpty() && schoolDistrictId != null) {
       result =
-          AJEntitySchool.where(LIST_SCHOOL, HelperConstants.PRECENTAGE + keyword + HelperConstants.PRECENTAGE, schoolDistrictId).limit(limit)
-              .offset(offset).orderBy(HelperConstants.NAME);
+          AJEntitySchool.where(LIST_SCHOOL, keyword + HelperConstants.PRECENTAGE, schoolDistrictId).limit(limit).offset(offset)
+              .orderBy(HelperConstants.NAME);
     } else if (keyword != null && !keyword.isEmpty()) {
       result =
-          AJEntitySchool.where(LIST_SCHOOL_FLT_BY_QUERY, HelperConstants.PRECENTAGE + keyword + HelperConstants.PRECENTAGE).limit(limit)
-              .offset(offset).orderBy(HelperConstants.NAME);
+          AJEntitySchool.where(LIST_SCHOOL_FLT_BY_QUERY, keyword + HelperConstants.PRECENTAGE).limit(limit).offset(offset)
+              .orderBy(HelperConstants.NAME);
     } else if (schoolDistrictId != null) {
       result = AJEntitySchool.where(LIST_SCHOOL_FLT_BY_SCHOOL_DISTRICT, schoolDistrictId).limit(limit).offset(offset).orderBy(HelperConstants.NAME);
     } else {
