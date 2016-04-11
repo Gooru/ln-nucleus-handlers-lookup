@@ -30,8 +30,8 @@ class SchoolDistrictHandler implements DBHandler {
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    JsonObject returnValue = null;
-    LazyList<AJEntitySchoolDistrict> result = null;
+    JsonObject returnValue;
+    LazyList<AJEntitySchoolDistrict> result;
     if (keyword != null && !keyword.isEmpty() && stateId != null) {
       result =
           AJEntitySchoolDistrict.where(LIST_SCHOOL_DISTRICT, stateId, keyword + HelperConstants.PRECENTAGE).limit(limit)

@@ -15,24 +15,24 @@ class Cen21SkillsHandler implements DBHandler {
   private static final Logger LOGGER = LoggerFactory.getLogger(Cen21SkillsHandler.class);
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    JsonObject returnValue = null;
+    JsonObject returnValue;
 
     String key_classification = null;
     JsonObject topLevelObject = new JsonObject();
     JsonArray subLevelArr = null;
     LazyList<AJEntityCen21Skills> result = AJEntityCen21Skills.findAll().orderBy(AJEntityCen21Skills.KEY_CLASSIFICATION).orderBy(AJEntityCen21Skills.SEQUENCE_ID);
     if ( result.size() > 0) {
-      
+
       for(AJEntityCen21Skills row: result){
-        
+
         if ((key_classification == null) || (!row.get(AJEntityCen21Skills.KEY_CLASSIFICATION).equals(key_classification)) ) {
           LOGGER.debug(row.get(AJEntityCen21Skills.KEY_CLASSIFICATION).toString());
           // key_classification value has changed...
           key_classification = row.get(AJEntityCen21Skills.KEY_CLASSIFICATION).toString();
           subLevelArr = new JsonArray();
           topLevelObject.put(key_classification, subLevelArr);
-        } 
-        
+        }
+
         // key classification value has not changed.
         JsonObject subLevelObject = new JsonObject();
         subLevelObject.put(AJEntityCen21Skills.LABEL, row.get(AJEntityCen21Skills.LABEL).toString());
@@ -40,9 +40,9 @@ class Cen21SkillsHandler implements DBHandler {
         subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1, row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1).toString());
         subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2, row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2).toString());
         subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3, row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3).toString());
-        subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4, row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4).toString());          
-        
-        subLevelArr.add(subLevelObject);  // keep adding just to array...we already added this to toplevel object        
+        subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4, row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4).toString());
+
+        subLevelArr.add(subLevelObject);  // keep adding just to array...we already added this to toplevel object
       }
       returnValue = new JsonObject().put("21_century_skills", topLevelObject);
       return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(returnValue), ExecutionResult.ExecutionStatus.SUCCESSFUL);

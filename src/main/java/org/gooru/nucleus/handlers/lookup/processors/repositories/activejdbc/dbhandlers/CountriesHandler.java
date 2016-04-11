@@ -23,8 +23,8 @@ class CountriesHandler implements DBHandler {
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    JsonObject returnValue = null;
-    LazyList<AJEntityCountry> result = null;
+    JsonObject returnValue;
+    LazyList<AJEntityCountry> result;
     if (keyword != null && !keyword.isEmpty()) {
       result = AJEntityCountry.where(LIST_COUNTRY_FLT_BY_QUERY, keyword + HelperConstants.PRECENTAGE).orderBy(HelperConstants.NAME);
     } else {

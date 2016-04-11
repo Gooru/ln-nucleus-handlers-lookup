@@ -25,8 +25,8 @@ class StatesHandler implements DBHandler {
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    LazyList<AJEntityState> result = null;
-    JsonObject returnValue = null;
+    LazyList<AJEntityState> result;
+    JsonObject returnValue;
     if (keyword != null && !keyword.isEmpty()) {
       result =
           AJEntityState.where(LIST_STATE, countryId,  keyword + HelperConstants.PRECENTAGE).orderBy(HelperConstants.NAME);

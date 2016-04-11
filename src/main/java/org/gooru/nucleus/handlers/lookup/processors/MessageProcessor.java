@@ -334,7 +334,7 @@ class MessageProcessor implements Processor {
   }
 
   private void getRequestParam() {
-    JsonArray keywordParam = null;
+    JsonArray keywordParam;
     if (request.containsKey(HelperConstants.KEYWORD)) {
       keywordParam = request.getJsonArray(HelperConstants.KEYWORD);
       if (keywordParam != null) {
@@ -342,7 +342,7 @@ class MessageProcessor implements Processor {
       }
     }
 
-    JsonArray stateParam = null;
+    JsonArray stateParam;
     if (request.containsKey(HelperConstants.STATE_ID)) {
       stateParam = request.getJsonArray(HelperConstants.STATE_ID);
       if (stateParam != null) {
@@ -350,7 +350,7 @@ class MessageProcessor implements Processor {
       }
     }
 
-    JsonArray schoolDistrictParam = null;
+    JsonArray schoolDistrictParam;
     if (request.containsKey(HelperConstants.SCHOOL_DISTRICT_ID)) {
       schoolDistrictParam = request.getJsonArray(HelperConstants.SCHOOL_DISTRICT_ID);
       if (schoolDistrictParam != null) {
@@ -358,14 +358,14 @@ class MessageProcessor implements Processor {
       }
     }
 
-    JsonArray limitParam = null;
+    JsonArray limitParam;
     if (request.containsKey(HelperConstants.LIMIT)) {
       limitParam = request.getJsonArray(HelperConstants.LIMIT);
       if (limitParam != null) {
         this.limit = Integer.parseInt(limitParam.getString(0));
       }
     }
-    JsonArray offsetParam = null;
+    JsonArray offsetParam;
     if (request.containsKey(HelperConstants.OFFSET)) {
       offsetParam = request.getJsonArray(HelperConstants.OFFSET);
       if (offsetParam != null) {
