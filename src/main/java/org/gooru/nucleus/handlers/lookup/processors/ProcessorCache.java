@@ -18,7 +18,7 @@ public final class ProcessorCache {
   private final CacheHolder momentsOfLearning;
   private final CacheHolder depthOfKnowledge;
   private final CacheHolder audience;
- 
+
   private ProcessorCache() {
     this.readingLevels = new CacheHolder();
     this.mediaFeatures = new CacheHolder();
@@ -63,7 +63,7 @@ public final class ProcessorCache {
   }
 
   public void setGrades(JsonObject grades) {
-    if (this.grades != null) {
+    if (grades != null) {
       LOGGER.debug("Trying to initialize grades");
       this.grades.initialize(grades);
     }
@@ -145,7 +145,7 @@ public final class ProcessorCache {
       this.audience.initialize(audience);
     }
   }
-  
+
  private static class CacheHolder {
     private final Object lock = new Object();
     private JsonObject cache;
