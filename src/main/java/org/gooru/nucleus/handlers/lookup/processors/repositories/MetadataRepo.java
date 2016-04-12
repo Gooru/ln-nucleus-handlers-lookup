@@ -23,4 +23,6 @@ public interface MetadataRepo {
   MessageResponse getDepthOfKnowledge();
 
   MessageResponse getAudience();
+
+  MessageResponse getLicenses();
 }

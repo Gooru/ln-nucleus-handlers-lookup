@@ -18,6 +18,7 @@ public final class ProcessorCache {
   private final CacheHolder momentsOfLearning;
   private final CacheHolder depthOfKnowledge;
   private final CacheHolder audience;
+  private final CacheHolder licenses;
 
   private ProcessorCache() {
     this.readingLevels = new CacheHolder();
@@ -30,6 +31,7 @@ public final class ProcessorCache {
     this.momentsOfLearning = new CacheHolder();
     this.audience = new CacheHolder();
     this.depthOfKnowledge = new CacheHolder();
+    this.licenses = new CacheHolder();
   }
 
   public static ProcessorCache getInstance() {
@@ -146,7 +148,18 @@ public final class ProcessorCache {
     }
   }
 
- private static class CacheHolder {
+  public JsonObject getLicenses() {
+    return this.licenses.getCachedValue();
+  }
+
+  public void setLicenses(JsonObject licenses) {
+    if (licenses != null) {
+      LOGGER.debug("Trying to initialize licenses");
+      this.licenses.initialize(licenses);
+    }
+  }
+
+  private static class CacheHolder {
     private final Object lock = new Object();
     private JsonObject cache;
     private volatile boolean initialized = false;

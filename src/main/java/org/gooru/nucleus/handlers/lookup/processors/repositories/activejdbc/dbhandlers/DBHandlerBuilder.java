@@ -1,5 +1,7 @@
 package org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.dbhandlers;
 
+import java.util.List;
+
 /**
  * Created by ashish on 11/1/16.
  */
@@ -9,7 +11,7 @@ public final class DBHandlerBuilder {
     throw new AssertionError();
   }
 
-  public static DBHandler fetchRowlistExecutorHandlerBuilder(String name, String sql, String[] fieldsInJson) {
+  public static DBHandler fetchRowlistExecutorHandlerBuilder(String name, String sql, List<String> fieldsInJson) {
     return new FetchRowlistExecutorHandler(name, sql, fieldsInJson);
   }
 

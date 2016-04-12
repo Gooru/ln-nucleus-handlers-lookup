@@ -3,7 +3,6 @@ package org.gooru.nucleus.handlers.lookup.processors;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-
 import org.gooru.nucleus.handlers.lookup.constants.HelperConstants;
 import org.gooru.nucleus.handlers.lookup.constants.MessageConstants;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.RepoBuilder;
@@ -45,57 +44,78 @@ class MessageProcessor implements Processor {
       final String msgOp = message.headers().get(MessageConstants.MSG_HEADER_OP);
 
       switch (msgOp) {
-      case MessageConstants.MSG_OP_LKUP_ACCESS_HAZARDS:
-        result = processAccessHazards();
-        break;
-      case MessageConstants.MSG_OP_LKUP_21_CEN_SKILLS:
-        result = process21CenSkills();
-        break;
-      case MessageConstants.MSG_OP_LKUP_AD_STATUS:
-        result = processAdStatus();
-        break;
-      case MessageConstants.MSG_OP_LKUP_EDU_USE:
-        result = processEducationalUse();
-        break;
-      case MessageConstants.MSG_OP_LKUP_GRADE:
-        result = processGrades();
-        break;
-      case MessageConstants.MSG_OP_LKUP_MEDIA_FEATURES:
-        result = processMediaFeatures();
-        break;
-      case MessageConstants.MSG_OP_LKUP_READ_LEVEL:
-        result = processReadingLevels();
-        break;
-      case MessageConstants.MSG_OP_LKUP_DOK:
-        result = processDepthOfKnowledge();
-        break;
-      case MessageConstants.MSG_OP_LKUP_AUDIENCE:
-        result = processAudience();
-        break;
-      case MessageConstants.MSG_OP_LKUP_MOMENTS:
-        result = processMomentsOfLearning();
-        break;
-      case MessageConstants.MSG_OP_LKUP_COUNTRIES:
-        result = processCountries();
-        break;
-      case MessageConstants.MSG_OP_LKUP_STATES:
-        result = processStates(countryId);
-        break;
-      case MessageConstants.MSG_OP_LKUP_SCHOOLDISTRICTS:
-        result = processSchoolDistricts();
-        break;
-      case MessageConstants.MSG_OP_LKUP_SCHOOLS:
-        result = processSchools();
-        break;
-      default:
-        LOGGER.error("Invalid operation type passed in, not able to handle");
-        return MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.item.lookup"));
+        case MessageConstants.MSG_OP_LKUP_ACCESS_HAZARDS:
+          result = processAccessHazards();
+          break;
+        case MessageConstants.MSG_OP_LKUP_21_CEN_SKILLS:
+          result = process21CenSkills();
+          break;
+        case MessageConstants.MSG_OP_LKUP_AD_STATUS:
+          result = processAdStatus();
+          break;
+        case MessageConstants.MSG_OP_LKUP_EDU_USE:
+          result = processEducationalUse();
+          break;
+        case MessageConstants.MSG_OP_LKUP_GRADE:
+          result = processGrades();
+          break;
+        case MessageConstants.MSG_OP_LKUP_MEDIA_FEATURES:
+          result = processMediaFeatures();
+          break;
+        case MessageConstants.MSG_OP_LKUP_READ_LEVEL:
+          result = processReadingLevels();
+          break;
+        case MessageConstants.MSG_OP_LKUP_DOK:
+          result = processDepthOfKnowledge();
+          break;
+        case MessageConstants.MSG_OP_LKUP_AUDIENCE:
+          result = processAudience();
+          break;
+        case MessageConstants.MSG_OP_LKUP_MOMENTS:
+          result = processMomentsOfLearning();
+          break;
+        case MessageConstants.MSG_OP_LKUP_COUNTRIES:
+          result = processCountries();
+          break;
+        case MessageConstants.MSG_OP_LKUP_STATES:
+          result = processStates(countryId);
+          break;
+        case MessageConstants.MSG_OP_LKUP_SCHOOLDISTRICTS:
+          result = processSchoolDistricts();
+          break;
+        case MessageConstants.MSG_OP_LKUP_SCHOOLS:
+          result = processSchools();
+          break;
+        case MessageConstants.MSG_OP_LKUP_LICENSES:
+          result = processLicenses();
+          break;
+        default:
+          LOGGER.error("Invalid operation type passed in, not able to handle");
+          return MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.item.lookup"));
       }
       return result;
     } catch (Throwable e) {
       LOGGER.error("Unhandled exception in processing", e);
       return MessageResponseFactory.createInternalErrorResponse();
     }
+  }
+
+  private MessageResponse processLicenses() {
+    MessageResponse response;
+    JsonObject result = ProcessorCache.getInstance().getLicenses();
+    if (result == null) {
+      response = RepoBuilder.buildMetadataRepo().getLicenses();
+      if (response.isSuccessful()) {
+        JsonObject itemToCache = response.getSuccessResult();
+        if (itemToCache != null && !itemToCache.isEmpty()) {
+          // Update the cache item
+          ProcessorCache.getInstance().setLicenses(itemToCache);
+        }
+      }
+    } else {
+      response = MessageResponseFactory.createOkayResponse(result);
+    }
+    return response;
   }
 
   private MessageResponse processReadingLevels() {
@@ -302,14 +322,14 @@ class MessageProcessor implements Processor {
     if (message == null || !(message.body() instanceof JsonObject)) {
       LOGGER.error("Invalid message received, either null or body of message is not JsonObject ");
       return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.message")),
-          ExecutionResult.ExecutionStatus.FAILED);
+        ExecutionResult.ExecutionStatus.FAILED);
     }
 
     String userId = ((JsonObject) message.body()).getString(MessageConstants.MSG_USER_ID);
     if (!validateUser(userId)) {
       LOGGER.error("Invalid user id passed. Not authorized.");
       return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(RESOURCE_BUNDLE.getString("missing.user")),
-          ExecutionResult.ExecutionStatus.FAILED);
+        ExecutionResult.ExecutionStatus.FAILED);
     }
 
     prefs = ((JsonObject) message.body()).getJsonObject(MessageConstants.MSG_KEY_PREFS);
@@ -318,13 +338,13 @@ class MessageProcessor implements Processor {
     if (prefs == null || prefs.isEmpty()) {
       LOGGER.error("Invalid preferences obtained, probably not authorized properly");
       return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(RESOURCE_BUNDLE.getString("missing.preferences")),
-          ExecutionResult.ExecutionStatus.FAILED);
+        ExecutionResult.ExecutionStatus.FAILED);
     }
 
     if (request == null) {
       LOGGER.error("Invalid JSON payload on Message Bus");
       return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.payload")),
-          ExecutionResult.ExecutionStatus.FAILED);
+        ExecutionResult.ExecutionStatus.FAILED);
     }
 
     countryId = message.headers().get(HelperConstants.COUNTRY_ID);
