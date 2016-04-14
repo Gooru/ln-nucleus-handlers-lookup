@@ -6,10 +6,11 @@ import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.tran
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 
 public class AJSchoolRepo implements SchoolRepo {
-  
-  @Override
-  public MessageResponse getSchools(String keyword, String schoolDistrictId, int limit, int offset) {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.schoolHandlerBuilder(keyword, schoolDistrictId, limit, offset));
-  }
-  
- }
+
+    @Override
+    public MessageResponse getSchools(String keyword, String schoolDistrictId, int limit, int offset) {
+        return TransactionExecutor
+            .executeTransaction(DBHandlerBuilder.schoolHandlerBuilder(keyword, schoolDistrictId, limit, offset));
+    }
+
+}

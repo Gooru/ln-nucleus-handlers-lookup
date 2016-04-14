@@ -12,47 +12,59 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 class Cen21SkillsHandler implements DBHandler {
-  private static final Logger LOGGER = LoggerFactory.getLogger(Cen21SkillsHandler.class);
-  @Override
-  public ExecutionResult<MessageResponse> executeRequest() {
-    JsonObject returnValue;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Cen21SkillsHandler.class);
 
-    String key_classification = null;
-    JsonObject topLevelObject = new JsonObject();
-    JsonArray subLevelArr = null;
-    LazyList<AJEntityCen21Skills> result = AJEntityCen21Skills.findAll().orderBy(AJEntityCen21Skills.KEY_CLASSIFICATION).orderBy(AJEntityCen21Skills.SEQUENCE_ID);
-    if ( result.size() > 0) {
+    @Override
+    public ExecutionResult<MessageResponse> executeRequest() {
+        JsonObject returnValue;
 
-      for(AJEntityCen21Skills row: result){
+        String key_classification = null;
+        JsonObject topLevelObject = new JsonObject();
+        JsonArray subLevelArr = null;
+        LazyList<AJEntityCen21Skills> result = AJEntityCen21Skills.findAll()
+            .orderBy(AJEntityCen21Skills.KEY_CLASSIFICATION).orderBy(AJEntityCen21Skills.SEQUENCE_ID);
+        if (result.size() > 0) {
 
-        if ((key_classification == null) || (!row.get(AJEntityCen21Skills.KEY_CLASSIFICATION).equals(key_classification)) ) {
-          LOGGER.debug(row.get(AJEntityCen21Skills.KEY_CLASSIFICATION).toString());
-          // key_classification value has changed...
-          key_classification = row.get(AJEntityCen21Skills.KEY_CLASSIFICATION).toString();
-          subLevelArr = new JsonArray();
-          topLevelObject.put(key_classification, subLevelArr);
+            for (AJEntityCen21Skills row : result) {
+
+                if ((key_classification == null)
+                    || (!row.get(AJEntityCen21Skills.KEY_CLASSIFICATION).equals(key_classification))) {
+                    LOGGER.debug(row.get(AJEntityCen21Skills.KEY_CLASSIFICATION).toString());
+                    // key_classification value has changed...
+                    key_classification = row.get(AJEntityCen21Skills.KEY_CLASSIFICATION).toString();
+                    subLevelArr = new JsonArray();
+                    topLevelObject.put(key_classification, subLevelArr);
+                }
+
+                // key classification value has not changed.
+                JsonObject subLevelObject = new JsonObject();
+                subLevelObject.put(AJEntityCen21Skills.LABEL, row.get(AJEntityCen21Skills.LABEL).toString());
+                subLevelObject.put(AJEntityCen21Skills.SEQUENCE_ID,
+                    row.get(AJEntityCen21Skills.SEQUENCE_ID).toString());
+                subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1,
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1).toString());
+                subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2,
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2).toString());
+                subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3,
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3).toString());
+                subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4,
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4).toString());
+
+                subLevelArr.add(subLevelObject);  // keep adding just to
+                                                  // array...we already added
+                                                  // this to toplevel object
+            }
+            returnValue = new JsonObject().put("21_century_skills", topLevelObject);
+            return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(returnValue),
+                ExecutionResult.ExecutionStatus.SUCCESSFUL);
         }
-
-        // key classification value has not changed.
-        JsonObject subLevelObject = new JsonObject();
-        subLevelObject.put(AJEntityCen21Skills.LABEL, row.get(AJEntityCen21Skills.LABEL).toString());
-        subLevelObject.put(AJEntityCen21Skills.SEQUENCE_ID, row.get(AJEntityCen21Skills.SEQUENCE_ID).toString());
-        subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1, row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1).toString());
-        subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2, row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2).toString());
-        subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3, row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3).toString());
-        subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4, row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4).toString());
-
-        subLevelArr.add(subLevelObject);  // keep adding just to array...we already added this to toplevel object
-      }
-      returnValue = new JsonObject().put("21_century_skills", topLevelObject);
-      return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(returnValue), ExecutionResult.ExecutionStatus.SUCCESSFUL);
+        return new ExecutionResult<>(MessageResponseFactory.createInternalErrorResponse(),
+            ExecutionResult.ExecutionStatus.FAILED);
     }
-    return new ExecutionResult<>(MessageResponseFactory.createInternalErrorResponse(), ExecutionResult.ExecutionStatus.FAILED);
-  }
 
-  @Override
-  public boolean handlerReadOnly() {
-    return true;
-  }
+    @Override
+    public boolean handlerReadOnly() {
+        return true;
+    }
 
 }

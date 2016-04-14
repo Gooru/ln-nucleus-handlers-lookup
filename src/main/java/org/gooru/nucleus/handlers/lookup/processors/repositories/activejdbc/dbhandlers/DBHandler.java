@@ -8,16 +8,16 @@ import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
  */
 public interface DBHandler {
 
-  default ExecutionResult<MessageResponse> checkSanity() {
-    return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
-  }
+    default ExecutionResult<MessageResponse> checkSanity() {
+        return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
+    }
 
-  default ExecutionResult<MessageResponse> validateRequest() {
-    return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
+    default ExecutionResult<MessageResponse> validateRequest() {
+        return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
 
-  }
+    }
 
-  ExecutionResult<MessageResponse> executeRequest();
+    ExecutionResult<MessageResponse> executeRequest();
 
-  boolean handlerReadOnly();
+    boolean handlerReadOnly();
 }
