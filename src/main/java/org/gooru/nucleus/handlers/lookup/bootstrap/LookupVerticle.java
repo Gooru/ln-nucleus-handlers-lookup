@@ -24,34 +24,35 @@ public class LookupVerticle extends AbstractVerticle {
     @Override
     public void start(Future<Void> voidFuture) throws Exception {
 
+        EventBus eb = vertx.eventBus();
+
         vertx.executeBlocking(blockingFuture -> {
             startApplication();
             blockingFuture.complete();
             LOGGER.debug("Application machinery startup successfully completed");
-        } , future -> {
-            if (future.succeeded()) {
-                voidFuture.complete();
+        }, startApplicationFuture -> {
+            if (startApplicationFuture.succeeded()) {
+                eb.consumer(MessagebusEndpoints.MBEP_LOOKUP, message -> vertx.executeBlocking(future -> {
+                    MessageResponse result = ProcessorBuilder.build(message).process();
+                    future.complete(result);
+                }, res -> {
+                    MessageResponse result = (MessageResponse) res.result();
+                    message.reply(result.reply(), result.deliveryOptions());
+                })).completionHandler(result -> {
+                    if (result.succeeded()) {
+                        LOGGER.info("Lookup end point ready to listen");
+                        voidFuture.complete();
+                    } else {
+                        LOGGER.error("Error registering the lookup handler. Halting the Lookup machinery");
+                        voidFuture.fail(result.cause());
+                        Runtime.getRuntime().halt(1);
+                    }
+                });
             } else {
                 voidFuture.fail("Not able to initialize the Lookup machinery properly");
             }
         });
 
-        EventBus eb = vertx.eventBus();
-
-        eb.consumer(MessagebusEndpoints.MBEP_LOOKUP, message -> vertx.executeBlocking(future -> {
-            MessageResponse result = ProcessorBuilder.build(message).process();
-            future.complete(result);
-        } , res -> {
-            MessageResponse result = (MessageResponse) res.result();
-            message.reply(result.reply(), result.deliveryOptions());
-        })).completionHandler(result -> {
-            if (result.succeeded()) {
-                LOGGER.info("Lookup end point ready to listen");
-            } else {
-                LOGGER.error("Error registering the lookup handler. Halting the Lookup machinery");
-                Runtime.getRuntime().halt(1);
-            }
-        });
     }
 
     @Override
