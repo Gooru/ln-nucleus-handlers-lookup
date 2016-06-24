@@ -38,17 +38,18 @@ class Cen21SkillsHandler implements DBHandler {
 
                 // key classification value has not changed.
                 JsonObject subLevelObject = new JsonObject();
+                subLevelObject.put(AJEntityCen21Skills.ID, row.get(AJEntityCen21Skills.ID));
                 subLevelObject.put(AJEntityCen21Skills.LABEL, row.get(AJEntityCen21Skills.LABEL).toString());
                 subLevelObject.put(AJEntityCen21Skills.SEQUENCE_ID,
-                    row.get(AJEntityCen21Skills.SEQUENCE_ID).toString());
+                    row.get(AJEntityCen21Skills.SEQUENCE_ID));
                 subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1,
-                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1).toString());
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1));
                 subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2,
-                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2).toString());
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2));
                 subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3,
-                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3).toString());
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3));
                 subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4,
-                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4).toString());
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4));
 
                 subLevelArr.add(subLevelObject);  // keep adding just to
                                                   // array...we already added
