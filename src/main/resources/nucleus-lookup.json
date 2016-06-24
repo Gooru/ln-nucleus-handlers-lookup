@@ -7,5 +7,11 @@
   	"autoCommit" : false,
   	"jdbcUrl" : "jdbc:postgresql://localhost:5432/nucleus",
   	"maximumPoolSize" : 2
+  },
+  "apikey.config" : {
+    "youtube" : {
+      "google.apikey" : "AIzaSyDmKrfPzAeckKJumzDmN24DzttauDKDmV4",
+      "google.appid" : "zUqEPiAnKYA"
+    }
   }
 }
