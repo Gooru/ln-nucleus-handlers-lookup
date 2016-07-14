@@ -9,6 +9,7 @@ import org.gooru.nucleus.handlers.lookup.processors.repositories.RepoBuilder;
 import org.gooru.nucleus.handlers.lookup.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponseFactory;
+import org.gooru.nucleus.handlers.lookup.processors.utils.APIKeyConfigUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,6 +91,9 @@ class MessageProcessor implements Processor {
             case MessageConstants.MSG_OP_LKUP_LICENSES:
                 result = processLicenses();
                 break;
+            case MessageConstants.MSG_OP_LKUP_APIKEY_CONFIG:
+                result = processAPIKeyConfig();
+                break;
             default:
                 LOGGER.error("Invalid operation type passed in, not able to handle");
                 return MessageResponseFactory
@@ -100,6 +104,11 @@ class MessageProcessor implements Processor {
             LOGGER.error("Unhandled exception in processing", e);
             return MessageResponseFactory.createInternalErrorResponse();
         }
+    }
+
+    private MessageResponse processAPIKeyConfig() {
+        JsonObject result = APIKeyConfigUtil.getAPIKeyConfig();
+        return MessageResponseFactory.createOkayResponse(result);
     }
 
     private MessageResponse processLicenses() {

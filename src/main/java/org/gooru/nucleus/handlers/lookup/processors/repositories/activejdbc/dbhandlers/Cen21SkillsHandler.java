@@ -1,5 +1,6 @@
 package org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.dbhandlers;
 
+import org.gooru.nucleus.handlers.lookup.constants.HelperConstants;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.entities.AJEntityCen21Skills;
 import org.gooru.nucleus.handlers.lookup.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
@@ -24,7 +25,7 @@ class Cen21SkillsHandler implements DBHandler {
         LazyList<AJEntityCen21Skills> result = AJEntityCen21Skills.findAll()
             .orderBy(AJEntityCen21Skills.KEY_CLASSIFICATION).orderBy(AJEntityCen21Skills.SEQUENCE_ID);
         if (result.size() > 0) {
-
+            topLevelObject.put(HelperConstants.CATEGORIES,HelperConstants.CEN21SKILLS_MODELS);
             for (AJEntityCen21Skills row : result) {
 
                 if ((key_classification == null)
@@ -38,17 +39,16 @@ class Cen21SkillsHandler implements DBHandler {
 
                 // key classification value has not changed.
                 JsonObject subLevelObject = new JsonObject();
+                subLevelObject.put(AJEntityCen21Skills.ID, row.get(AJEntityCen21Skills.ID));
                 subLevelObject.put(AJEntityCen21Skills.LABEL, row.get(AJEntityCen21Skills.LABEL).toString());
-                subLevelObject.put(AJEntityCen21Skills.SEQUENCE_ID,
-                    row.get(AJEntityCen21Skills.SEQUENCE_ID).toString());
                 subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1,
-                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1).toString());
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_1));
                 subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2,
-                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2).toString());
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_2));
                 subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3,
-                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3).toString());
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_3));
                 subLevelObject.put(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4,
-                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4).toString());
+                    row.get(AJEntityCen21Skills.TWENTY_LEARNING_MODELS_4));
 
                 subLevelArr.add(subLevelObject);  // keep adding just to
                                                   // array...we already added
