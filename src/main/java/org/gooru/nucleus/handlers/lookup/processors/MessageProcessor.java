@@ -19,7 +19,7 @@ class MessageProcessor implements Processor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class);
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
-    private JsonObject prefs;
+    private JsonObject session;
     private JsonObject request;
     private final Message<Object> message;
     private ProcessorContext context;
@@ -35,7 +35,7 @@ class MessageProcessor implements Processor {
             if (validateResult.isCompleted()) {
                 return validateResult.result();
             }
-            context = new ProcessorContext(request, prefs, message.headers());
+            context = new ProcessorContext(request, session, message.headers());
             final String msgOp = message.headers().get(MessageConstants.MSG_HEADER_OP);
             return CommandProcessorBuilder.lookupBuilder(msgOp).build(context).process();
 
@@ -64,13 +64,13 @@ class MessageProcessor implements Processor {
                 ExecutionResult.ExecutionStatus.FAILED);
         }
 
-        prefs = ((JsonObject) message.body()).getJsonObject(MessageConstants.MSG_KEY_PREFS);
+        session = ((JsonObject) message.body()).getJsonObject(MessageConstants.MSG_KEY_SESSION);
         request = ((JsonObject) message.body()).getJsonObject(MessageConstants.MSG_HTTP_BODY);
 
-        if (prefs == null || prefs.isEmpty()) {
-            LOGGER.error("Invalid preferences obtained, probably not authorized properly");
+        if (session == null || session.isEmpty()) {
+            LOGGER.error("Invalid session obtained, probably not authorized properly");
             return new ExecutionResult<>(
-                MessageResponseFactory.createForbiddenResponse(RESOURCE_BUNDLE.getString("missing.preferences")),
+                MessageResponseFactory.createForbiddenResponse(RESOURCE_BUNDLE.getString("missing.session")),
                 ExecutionResult.ExecutionStatus.FAILED);
         }
 
