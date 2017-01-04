@@ -11,20 +11,20 @@ import io.vertx.core.json.JsonObject;
  */
 public class ProcessorContext {
     private final JsonObject request;
-    private final JsonObject prefs;
+    private final JsonObject session;
     private final MultiMap requestHeaders;
 
-    public ProcessorContext(JsonObject request, JsonObject prefs, MultiMap headers) {
-        if (request == null || prefs == null || prefs.isEmpty() || headers == null || headers.isEmpty()) {
+    public ProcessorContext(JsonObject request, JsonObject session, MultiMap headers) {
+        if (request == null || session == null || session.isEmpty() || headers == null || headers.isEmpty()) {
             throw new IllegalStateException("Processor Context creation failed because of invalid values");
         }
-        this.prefs = prefs.copy();
+        this.session = session.copy();
         this.request = request != null ? request.copy() : null;
         this.requestHeaders = headers;
     }
 
-    public JsonObject prefs() {
-        return this.prefs.copy();
+    public JsonObject session() {
+        return this.session.copy();
     }
 
     public JsonObject request() {
