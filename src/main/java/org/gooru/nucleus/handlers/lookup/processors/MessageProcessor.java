@@ -42,23 +42,10 @@ class MessageProcessor implements Processor {
             if (validateResult.isCompleted()) {
                 return validateResult.result();
             }
+
             context = new ProcessorContext(request, session, message.headers());
             final String msgOp = message.headers().get(MessageConstants.MSG_HEADER_OP);
-            if (msgOp.equals(MessageConstants.MSG_OP_FIREBASE_APIKEY_CONFIG)) {
-                JsonObject config = new JsonObject();
-                config.put("apiKey", "AIzaSyBK9u8tQun9rL9erEEkIq9HULSpdjHBLL8");
-                config.put("authDomain", "nile-2d108.firebaseapp.com");
-                config.put("databaseURL", "https://nile-2d108.firebaseio.com");
-                config.put("storageBucket", "nile-2d108.appspot.com");
-                return MessageResponseFactory.createOkayResponse(config);
-            } else if (msgOp.equals(MessageConstants.MSG_OP_FIREBASE_JWT_CREATION)) {
-                InputStream firebaseConfig = getClass().getClassLoader()
-                        .getResourceAsStream("firebaseServiceAccountFirstProject.json");
-
-                FirebaseOptions options = new FirebaseOptions.Builder().setServiceAccount(firebaseConfig)// "knowledgeHub-service/googleServiceKeyFirstChat.json"))
-                        .setDatabaseUrl("https://firstproject-fd791.firebaseio.com").build();
-
-                FirebaseApp.initializeApp(options);
+            if (msgOp.equals(MessageConstants.MSG_OP_FIREBASE_JWT_CREATION)) {
 
                 try {
                     String uid = context.session().getString("user_id");// authenticatedUser.getUuid();
