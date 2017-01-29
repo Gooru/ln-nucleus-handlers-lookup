@@ -40,6 +40,8 @@ public final class MessageConstants {
     public static final String RESP_CONTAINER_EVENT = "mb.event";
     public static final String MSG_OP_FIREBASE_JWT_CREATION = "firebase.jwt";
 
+    public static final String CLAIM_USERNAME = "username";
+    
     private MessageConstants() {
         throw new AssertionError();
     }

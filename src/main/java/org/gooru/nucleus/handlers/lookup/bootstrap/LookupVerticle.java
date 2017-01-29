@@ -75,17 +75,6 @@ public class LookupVerticle extends AbstractVerticle {
             LOGGER.error("Error initializing application", ie);
             Runtime.getRuntime().halt(1);
         }
-        try {
-            InputStream firebaseConfig = getClass().getClassLoader()
-                    .getResourceAsStream("firebaseServiceAccountFirstProject.json");
-
-            FirebaseOptions options = new FirebaseOptions.Builder().setServiceAccount(firebaseConfig)// "knowledgeHub-service/googleServiceKeyFirstChat.json"))
-                    .setDatabaseUrl("https://firstproject-fd791.firebaseio.com").build();
-
-            FirebaseApp.initializeApp(options);
-        } catch (Exception e) {
-            LOGGER.info("exception: " + e.toString());
-        }
     }
 
     private void shutDownApplication() {
