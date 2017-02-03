@@ -5,7 +5,7 @@
   	"username" : "nucleus",
   	"password" : "nucleus",
   	"autoCommit" : false,
-  	"jdbcUrl" : "jdbc:postgresql://localhost:5432/nucleus",
+  	"jdbcUrl" : "jdbc:postgresql://localhost:5433/nucleus",
   	"maximumPoolSize" : 2
   },
   "apikey.config" : {
@@ -13,5 +13,18 @@
       "google.apikey" : "AIzaSyDmKrfPzAeckKJumzDmN24DzttauDKDmV4",
       "google.appid" : "zUqEPiAnKYA"
     }
-  }
+  },
+  "firebase.config":{
+	  "type": "service_account",
+	  "project_id": "nile-2d108",
+	  "private_key_id": "7599429ec2dee368003ad9d4b720b68f58efad3b",
+	  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCuWJn/Y3D4C7t+\nfx1pUSIavSJVKQj7yNpv7bnWaeM7S3WIs6RRUXukfpAilZ9Y8nAJ0d1Fw2zuHH0E\nNIZrAA5XyokIZdNUNsf775d70naNsBlptZiQqnKs1z/fPGxAyec0mBUnzPb8slzu\n213xFfgohD0VCLF3adq8cmDS6x8Ib0q5irrh+QfC7SU0C0uBKaxEXJggZFSnHKjV\ntmlBt0g1wloFL2WAKxUN97Dj0Mna+NpOsZN9kqa/cDpqsn5XGmTb2KK6Z1waKgth\n6FmDQFEOtsCWdtn9Ixcwp2yhNXGxRUHaSLONOfbVDsvp5MdqMVLuB0ox5AQ2NKTy\nhw3t5tyVAgMBAAECggEAMF0buyDWwbhfdqPEgOak004MLBuKBm6dSddkafpNsrEo\nFZffyT8VUXhae32OCpqWQeMZwrSHjzYP6A66Cwyk7e2dPdshWIcpytWX7B1iDcQA\nCLb7b4YY8aF0cnTMgtx/arOVisjs6wR/izMHSE2T3YlxeFhFAp82snf4LApVPX1M\nlmtxfJofbyoNjkCTdAJGJWOJNLQ1x2NkXFYTWnAfzijx/7UiTl2/dtDm7vf+Sk2V\nO3gvdE3dcgFc+Qq1U8bZqNMDPxE8H2MOuD/1dqOd8tJf0UYRWNOX/lQVucEIWz/T\n2nA2MXVkFvMXYgDMd9eGhalbzsjpjg6ODjUgMwDBMQKBgQDfIBCffT6l2/HhE7zr\ngb3siVvkaxo1TAcAXALUPZcPhM5zKU+TgCdUvM0Eo08H5Z83cWQUy7vJYeLWJy3p\nkZ0vTqp2xdifhcVeoShHw0w4UwjWsSRkQwZnbLHv4cjMwFmO9k42+fMwupc/YFzv\nUmMyUHsKqv+hI9spB2Hq9KjN1wKBgQDICKnQ7isIftCBPDaxt86DheuZg2viBdjx\nTuqBA2anOe0ViywAI0YTujV2dntgCDiUX7ugbUW+yE5grm2t+GesLYesERueUvRU\n83ZCNairFs9HEDc3umFkblfGVubI7eBj1XIOmqk1kSgY1DdDfzgZVSvMSFxMqyjR\nL0+EE8IjcwKBgQCDCPm6MHuSPFEYtdbFGDTJrQFia+PAWR3jgCXJL0J/wqbbyu8I\n2MJAaYCdsKrBIIEYtmboL53g7rOgwPGdsf51weUqS5akWJNIt6xIONGSYnFWZEHS\n/+nK43K8RgT++heeddgJQVEo1OvuNFFf2yqWad1YroPhxoT223cN3RElkQKBgHP7\nSfMhVQQ8+0ojjpbmuy/ZQ2ykHbZUq5/moOOjBC8r0AJwyldeHHCtw/fm5MwemCe3\nhkOTeCARZhh6qo93ey0CzSqAVOIsuQxUiZoEIMLqm85ZYZrHT1b6/5u5oWCZRES+\nar57AGdVvcj/qvdQ2Uce8iElR5cQmr8HTnSHPEZvAoGAWHe4oN9cLwdj4rEcyKjg\ntIsSNoV6wVukrjMivMhk3+TPC6oAd77mLf0kbIIWHfYsAjG0IpvyLGMgKJDQDomN\n5X2Jdys+eQp4aecSqMqPRZte8cwzZUYmuiCAHqwOGuKfJxt5fZuAt8Y878iumkyh\nYidSA/MsAkwlOcM8RPamoTw=\n-----END PRIVATE KEY-----\n",
+	  "client_email": "firebase-adminsdk-oa1op@nile-2d108.iam.gserviceaccount.com",
+	  "client_id": "102843555980500213667",
+	  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+	  "token_uri": "https://accounts.google.com/o/oauth2/token",
+	  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+	  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-oa1op%40nile-2d108.iam.gserviceaccount.com"
+	}
+  
 }

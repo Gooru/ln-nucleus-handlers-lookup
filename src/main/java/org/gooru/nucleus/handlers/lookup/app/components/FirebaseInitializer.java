@@ -1,5 +1,6 @@
 package org.gooru.nucleus.handlers.lookup.app.components;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -53,16 +54,12 @@ public class FirebaseInitializer implements Initializer, Finalizer{
                 if (!initialized) {
                     LOGGER.debug("Initializing now");
                     try {
-                        InputStream firebaseConfig = getClass().getClassLoader()
-                                .getResourceAsStream("firebaseServiceAccountFirstProject.json");
+
+                        String str = config.getJsonObject("firebase.config").toString();
+                        InputStream firebaseConfig = new ByteArrayInputStream(str.getBytes());
 
                        FirebaseOptions options = new FirebaseOptions.Builder().setServiceAccount(firebaseConfig)// "knowledgeHub-service/googleServiceKeyFirstChat.json"))
                              .setDatabaseUrl("https://firstproject-fd791.firebaseio.com").build();
-                        
-                        /*FirebaseOptions options = new FirebaseOptions.Builder()
-                                .setCredential(FirebaseCredentials.fromCertificate(firebaseConfig))
-                                .setDatabaseUrl("https://firstproject-fd791.firebaseio.com")
-                                .build();*/
 
                         FirebaseApp.initializeApp(options);
                         initialized = true;
