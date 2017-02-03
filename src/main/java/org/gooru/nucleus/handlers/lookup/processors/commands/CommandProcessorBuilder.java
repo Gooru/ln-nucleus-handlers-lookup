@@ -124,6 +124,12 @@ public enum CommandProcessorBuilder {
         public Processor build(ProcessorContext context) {
             return new ApiKeyConfigProcessor(context);
         }
+    },
+    FIREBASE_JWT_CREATION(MessageConstants.MSG_OP_FIREBASE_JWT_CREATION) {
+        @Override
+        public Processor build(ProcessorContext context) {
+            return new FirebaseJwtCreationProcessor(context);
+        }
     };
 
     private String name;
