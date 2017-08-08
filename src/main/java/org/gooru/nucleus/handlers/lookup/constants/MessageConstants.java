@@ -3,10 +3,8 @@ package org.gooru.nucleus.handlers.lookup.constants;
 public final class MessageConstants {
 
     public static final String MSG_HEADER_OP = "mb.operation";
-    public static final String MSG_HEADER_TOKEN = "session.token";
-    public static final String MSG_OP_AUTH_WITH_PREFS = "auth.with.prefs";
     public static final String MSG_OP_STATUS = "mb.operation.status";
-    public static final String MSG_KEY_PREFS = "prefs";
+    public static final String MSG_KEY_SESSION = "session";
     public static final String MSG_OP_STATUS_SUCCESS = "success";
     public static final String MSG_OP_STATUS_ERROR = "error";
     public static final String MSG_OP_STATUS_VALIDATION_ERROR = "error.validation";
@@ -40,7 +38,10 @@ public final class MessageConstants {
     // Containers for different responses
     public static final String RESP_CONTAINER_MBUS = "mb.container";
     public static final String RESP_CONTAINER_EVENT = "mb.event";
+    public static final String MSG_OP_FIREBASE_JWT_CREATION = "firebase.jwt";
 
+    public static final String CLAIM_USERNAME = "username";
+    
     private MessageConstants() {
         throw new AssertionError();
     }
