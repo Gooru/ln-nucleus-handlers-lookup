@@ -1,11 +1,17 @@
 package org.gooru.nucleus.handlers.lookup.processors.responses;
 
+import org.gooru.nucleus.handlers.lookup.constants.HttpConstants;
+
 import io.vertx.core.json.JsonObject;
 
 /**
  * Created by ashish on 6/1/16.
  */
 public final class MessageResponseFactory {
+
+    private static final String API_VERSION_DEPRECATED = "API version is deprecated";
+    private static final String API_VERSION_NOT_SUPPORTED = "API version is not supported";
+
     private static final String MESSAGE = "message";
 
     private MessageResponseFactory() {
@@ -58,4 +64,10 @@ public final class MessageResponseFactory {
         return new MessageResponse.Builder().successful().setStatusOkay().setContentTypeJson().setResponseBody(body)
             .build();
     }
+
+    public static MessageResponse createVersionDeprecatedResponse() {
+        return new MessageResponse.Builder().failed().setStatusHttpCode(HttpConstants.HttpStatus.GONE)
+            .setContentTypeJson().setResponseBody(new JsonObject().put(MESSAGE, API_VERSION_DEPRECATED)).build();
+    }
+
 }

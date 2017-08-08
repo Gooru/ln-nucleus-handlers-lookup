@@ -1,5 +1,7 @@
 package org.gooru.nucleus.handlers.lookup.bootstrap;
 
+import java.io.InputStream;
+
 import org.gooru.nucleus.handlers.lookup.bootstrap.shutdown.Finalizer;
 import org.gooru.nucleus.handlers.lookup.bootstrap.shutdown.Finalizers;
 import org.gooru.nucleus.handlers.lookup.bootstrap.startup.Initializer;
@@ -9,6 +11,9 @@ import org.gooru.nucleus.handlers.lookup.processors.ProcessorBuilder;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
@@ -25,7 +30,6 @@ public class LookupVerticle extends AbstractVerticle {
     public void start(Future<Void> voidFuture) throws Exception {
 
         EventBus eb = vertx.eventBus();
-
         vertx.executeBlocking(blockingFuture -> {
             startApplication();
             blockingFuture.complete();
