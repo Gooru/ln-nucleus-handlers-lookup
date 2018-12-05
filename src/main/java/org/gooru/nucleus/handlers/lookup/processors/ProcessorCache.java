@@ -163,7 +163,7 @@ public final class ProcessorCache {
     }
     
     public JsonObject getLanguages() {
-        return this.licenses.getCachedValue();
+        return this.languages.getCachedValue();
     }
 
     public void setLanguages(JsonObject languages) {
