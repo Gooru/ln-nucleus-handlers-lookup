@@ -130,6 +130,12 @@ public enum CommandProcessorBuilder {
         public Processor build(ProcessorContext context) {
             return new FirebaseJwtCreationProcessor(context);
         }
+    },
+    LANGUAGES(MessageConstants.MSG_OP_LKUP_LANGUAGES) {
+        @Override
+        public Processor build(ProcessorContext context) {
+            return new LanguagesProcessor(context);
+        }
     };
 
     private String name;
