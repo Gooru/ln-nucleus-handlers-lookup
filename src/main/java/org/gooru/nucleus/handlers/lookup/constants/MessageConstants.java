@@ -34,6 +34,7 @@ public final class MessageConstants {
     public static final String MSG_OP_LKUP_SCHOOLDISTRICTS = "school-districts";
     public static final String MSG_OP_LKUP_SCHOOLS = "schools";
     public static final String MSG_OP_LKUP_APIKEY_CONFIG = "apikey.config";
+    public static final String MSG_OP_LKUP_LANGUAGES = "languages";
 
     // Containers for different responses
     public static final String RESP_CONTAINER_MBUS = "mb.container";

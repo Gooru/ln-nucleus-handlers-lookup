@@ -34,5 +34,9 @@ public final class RepoBuilder {
     public static SchoolRepo buildSchoolsRepo() {
         return ActiveJdbcRepoBuilder.buildSchoolsRepo();
     }
+    
+    public static LanguagesRepo buildLanguagesRepo() {
+        return ActiveJdbcRepoBuilder.buildLanguagesRepo();
+    }
 
 }
