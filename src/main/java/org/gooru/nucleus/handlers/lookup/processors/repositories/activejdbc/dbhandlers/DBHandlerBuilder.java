@@ -34,4 +34,8 @@ public final class DBHandlerBuilder {
     public static DBHandler build21CenSkillsHandlerBuilder() {
         return new Cen21SkillsHandler();
     }
+    
+    public static DBHandler buildLanguagesHandlerBuilder() {
+        return new LanguagesHandler();
+    }
 }

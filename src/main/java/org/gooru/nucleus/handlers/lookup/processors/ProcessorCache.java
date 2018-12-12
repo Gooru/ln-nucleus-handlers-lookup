@@ -20,6 +20,7 @@ public final class ProcessorCache {
     private final CacheHolder depthOfKnowledge;
     private final CacheHolder audience;
     private final CacheHolder licenses;
+    private final CacheHolder languages;
 
     private ProcessorCache() {
         this.readingLevels = new CacheHolder();
@@ -33,6 +34,7 @@ public final class ProcessorCache {
         this.audience = new CacheHolder();
         this.depthOfKnowledge = new CacheHolder();
         this.licenses = new CacheHolder();
+        this.languages = new CacheHolder();
     }
 
     public static ProcessorCache getInstance() {
@@ -157,6 +159,17 @@ public final class ProcessorCache {
         if (licenses != null) {
             LOGGER.debug("Trying to initialize licenses");
             this.licenses.initialize(licenses);
+        }
+    }
+    
+    public JsonObject getLanguages() {
+        return this.languages.getCachedValue();
+    }
+
+    public void setLanguages(JsonObject languages) {
+        if (languages != null) {
+            LOGGER.debug("Trying to initialize languages");
+            this.languages.initialize(languages);
         }
     }
 
