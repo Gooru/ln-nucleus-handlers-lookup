@@ -5,38 +5,37 @@ import org.gooru.nucleus.handlers.lookup.processors.ProcessorContext;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.RepoBuilder;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponseFactory;
-
 import io.vertx.core.json.JsonObject;
 
 /**
  * @author ashish on 2/1/17.
  */
 class EducationalUseProcessor extends AbstractCommandProcessor {
-    public EducationalUseProcessor(ProcessorContext context) {
-        super(context);
-    }
+  public EducationalUseProcessor(ProcessorContext context) {
+    super(context);
+  }
 
-    @Override
-    protected void setDeprecatedVersions() {
+  @Override
+  protected void setDeprecatedVersions() {
 
-    }
+  }
 
-    @Override
-    protected MessageResponse processCommand() {
-        MessageResponse response;
-        JsonObject result = ProcessorCache.getInstance().getEducationalUse();
-        if (result == null) {
-            response = RepoBuilder.buildMetadataRepo().getEducationalUse();
-            if (response.isSuccessful()) {
-                JsonObject itemToCache = response.getSuccessResult();
-                if (itemToCache != null && !itemToCache.isEmpty()) {
-                    // Update the cache item
-                    ProcessorCache.getInstance().setEducationalUse(itemToCache);
-                }
-            }
-        } else {
-            response = MessageResponseFactory.createOkayResponse(result);
+  @Override
+  protected MessageResponse processCommand() {
+    MessageResponse response;
+    JsonObject result = ProcessorCache.getInstance().getEducationalUse();
+    if (result == null) {
+      response = RepoBuilder.buildMetadataRepo().getEducationalUse();
+      if (response.isSuccessful()) {
+        JsonObject itemToCache = response.getSuccessResult();
+        if (itemToCache != null && !itemToCache.isEmpty()) {
+          // Update the cache item
+          ProcessorCache.getInstance().setEducationalUse(itemToCache);
         }
-        return response;
+      }
+    } else {
+      response = MessageResponseFactory.createOkayResponse(result);
     }
+    return response;
+  }
 }

@@ -7,8 +7,9 @@ import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 
 public class AJCountryRepo implements CountryRepo {
 
-    @Override
-    public MessageResponse getCountries(String keyword) {
-        return TransactionExecutor.executeTransaction(DBHandlerBuilder.countriesHandlerBuilder(keyword));
-    }
+  @Override
+  public MessageResponse getCountries(String keyword) {
+    return TransactionExecutor
+        .executeTransaction(DBHandlerBuilder.countriesHandlerBuilder(keyword));
+  }
 }

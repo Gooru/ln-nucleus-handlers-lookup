@@ -6,23 +6,23 @@ import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
  * Created by ashish on 29/12/15.
  */
 public interface MetadataRepo {
-    MessageResponse getReadingLevels();
+  MessageResponse getReadingLevels();
 
-    MessageResponse getMediaFeatures();
+  MessageResponse getMediaFeatures();
 
-    MessageResponse getGrades();
+  MessageResponse getGrades();
 
-    MessageResponse getEducationalUse();
+  MessageResponse getEducationalUse();
 
-    MessageResponse getAdStatus();
+  MessageResponse getAdStatus();
 
-    MessageResponse getAccessHazards();
+  MessageResponse getAccessHazards();
 
-    MessageResponse getMomentsOfLearning();
+  MessageResponse getMomentsOfLearning();
 
-    MessageResponse getDepthOfKnowledge();
+  MessageResponse getDepthOfKnowledge();
 
-    MessageResponse getAudience();
+  MessageResponse getAudience();
 
-    MessageResponse getLicenses();
+  MessageResponse getLicenses();
 }
