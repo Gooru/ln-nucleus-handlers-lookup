@@ -39,4 +39,8 @@ public final class RepoBuilder {
     return ActiveJdbcRepoBuilder.buildLanguagesRepo();
   }
 
+  public static FeedbackCategoryRepo buildFeedbackCategoriesRepo() {
+    return ActiveJdbcRepoBuilder.buildFeedbackCategoriesRepo();
+  }
+
 }

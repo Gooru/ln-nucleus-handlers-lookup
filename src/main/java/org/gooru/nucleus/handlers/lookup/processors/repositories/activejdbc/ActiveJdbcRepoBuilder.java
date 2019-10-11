@@ -2,6 +2,7 @@ package org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc;
 
 import org.gooru.nucleus.handlers.lookup.processors.repositories.Cen21SkillsRepo;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.CountryRepo;
+import org.gooru.nucleus.handlers.lookup.processors.repositories.FeedbackCategoryRepo;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.LanguagesRepo;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.MetadataRepo;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.SchoolDistrictRepo;
@@ -44,4 +45,9 @@ public final class ActiveJdbcRepoBuilder {
   public static LanguagesRepo buildLanguagesRepo() {
     return new AJLanguagesRepo();
   }
+  
+  public static FeedbackCategoryRepo buildFeedbackCategoriesRepo() {
+    return new AJFeedbackCategoryRepo();
+  }
+  
 }

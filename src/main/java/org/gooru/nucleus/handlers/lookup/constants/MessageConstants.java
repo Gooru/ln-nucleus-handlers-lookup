@@ -35,11 +35,13 @@ public final class MessageConstants {
   public static final String MSG_OP_LKUP_SCHOOLS = "schools";
   public static final String MSG_OP_LKUP_APIKEY_CONFIG = "apikey.config";
   public static final String MSG_OP_LKUP_LANGUAGES = "languages";
+  public static final String MSG_OP_LKUP_FEEDBACK_CATEGORIES = "feedback.categories";
+  public static final String MSG_OP_FIREBASE_JWT_CREATION = "firebase.jwt";
 
   // Containers for different responses
   public static final String RESP_CONTAINER_MBUS = "mb.container";
   public static final String RESP_CONTAINER_EVENT = "mb.event";
-  public static final String MSG_OP_FIREBASE_JWT_CREATION = "firebase.jwt";
+  public static final String RESP_FEEDBACK_CATEGORIES = "feedback_categories";
 
   public static final String CLAIM_USERNAME = "username";
 
