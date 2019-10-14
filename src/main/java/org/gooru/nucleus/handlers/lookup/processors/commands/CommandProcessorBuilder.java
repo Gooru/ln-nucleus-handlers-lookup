@@ -135,6 +135,12 @@ public enum CommandProcessorBuilder {
     public Processor build(ProcessorContext context) {
       return new LanguagesProcessor(context);
     }
+  },
+  FEEDBACK_CATEGORIES(MessageConstants.MSG_OP_LKUP_FEEDBACK_CATEGORIES) {
+    @Override
+    public Processor build(ProcessorContext context) {
+      return new FeedbackCategoriesProcessor(context);
+    }
   };
 
   private String name;

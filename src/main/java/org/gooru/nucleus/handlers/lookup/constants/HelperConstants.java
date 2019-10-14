@@ -18,6 +18,8 @@ public final class HelperConstants {
   public static final List<String> CEN21SKILLS_MODELS =
       Collections.unmodifiableList(Arrays.asList("Hewlett Deep Learning Model", "Conley Four Key",
           "P21 Framework", "National Research Center for Life and Work"));
+  public static final String CONTENT_TYPE = "content_type";
+  public static final String USER_CATEGORY_ID = "user_category_id";
 
   private HelperConstants() {
     throw new AssertionError();

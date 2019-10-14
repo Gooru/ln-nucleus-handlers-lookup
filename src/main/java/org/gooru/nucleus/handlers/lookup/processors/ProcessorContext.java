@@ -52,6 +52,14 @@ public class ProcessorContext {
     return getRequestParamAsString(HelperConstants.SCHOOL_DISTRICT_ID);
   }
 
+  public String contentType() {
+    return getRequestParamAsString(HelperConstants.CONTENT_TYPE);
+  }
+
+  public String userCategoryId() {
+    return getRequestParamAsString(HelperConstants.USER_CATEGORY_ID);
+  }
+
   public int limit() {
     return getRequestParamAsInt(HelperConstants.LIMIT, 20);
   }
