@@ -7,9 +7,9 @@ import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 
 public class AJLanguagesRepo implements LanguagesRepo {
 
-    @Override
-    public MessageResponse getLanguages() {
-        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildLanguagesHandlerBuilder());
-    }
+  @Override
+  public MessageResponse getLanguages() {
+    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildLanguagesHandlerBuilder());
+  }
 
 }

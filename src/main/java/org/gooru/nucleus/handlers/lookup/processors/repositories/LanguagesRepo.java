@@ -7,5 +7,5 @@ import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
  */
 public interface LanguagesRepo {
 
-    MessageResponse getLanguages();
+  MessageResponse getLanguages();
 }

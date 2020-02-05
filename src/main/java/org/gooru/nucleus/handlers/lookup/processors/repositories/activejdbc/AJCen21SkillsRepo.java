@@ -6,8 +6,9 @@ import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.tran
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 
 public class AJCen21SkillsRepo implements Cen21SkillsRepo {
-    @Override
-    public MessageResponse getCen21Skills() {
-        return TransactionExecutor.executeTransaction(DBHandlerBuilder.build21CenSkillsHandlerBuilder());
-    }
+  @Override
+  public MessageResponse getCen21Skills() {
+    return TransactionExecutor
+        .executeTransaction(DBHandlerBuilder.build21CenSkillsHandlerBuilder());
+  }
 }

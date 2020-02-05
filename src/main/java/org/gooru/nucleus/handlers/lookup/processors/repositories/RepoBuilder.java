@@ -7,36 +7,40 @@ import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.Acti
  */
 public final class RepoBuilder {
 
-    private RepoBuilder() {
-        throw new AssertionError();
-    }
+  private RepoBuilder() {
+    throw new AssertionError();
+  }
 
-    public static MetadataRepo buildMetadataRepo() {
-        return ActiveJdbcRepoBuilder.buildMetadataRepo();
-    }
+  public static MetadataRepo buildMetadataRepo() {
+    return ActiveJdbcRepoBuilder.buildMetadataRepo();
+  }
 
-    public static Cen21SkillsRepo buildCen21SkillsRepo() {
-        return ActiveJdbcRepoBuilder.buildCen21SkillsRepo();
-    }
+  public static Cen21SkillsRepo buildCen21SkillsRepo() {
+    return ActiveJdbcRepoBuilder.buildCen21SkillsRepo();
+  }
 
-    public static CountryRepo buildCountriesRepo() {
-        return ActiveJdbcRepoBuilder.buildCountriesRepo();
-    }
+  public static CountryRepo buildCountriesRepo() {
+    return ActiveJdbcRepoBuilder.buildCountriesRepo();
+  }
 
-    public static StateRepo buildStatesRepo() {
-        return ActiveJdbcRepoBuilder.buildStatesRepo();
-    }
+  public static StateRepo buildStatesRepo() {
+    return ActiveJdbcRepoBuilder.buildStatesRepo();
+  }
 
-    public static SchoolDistrictRepo buildSchoolDistrictsRepo() {
-        return ActiveJdbcRepoBuilder.buildSchoolDistrictsRepo();
-    }
+  public static SchoolDistrictRepo buildSchoolDistrictsRepo() {
+    return ActiveJdbcRepoBuilder.buildSchoolDistrictsRepo();
+  }
 
-    public static SchoolRepo buildSchoolsRepo() {
-        return ActiveJdbcRepoBuilder.buildSchoolsRepo();
-    }
-    
-    public static LanguagesRepo buildLanguagesRepo() {
-        return ActiveJdbcRepoBuilder.buildLanguagesRepo();
-    }
+  public static SchoolRepo buildSchoolsRepo() {
+    return ActiveJdbcRepoBuilder.buildSchoolsRepo();
+  }
+
+  public static LanguagesRepo buildLanguagesRepo() {
+    return ActiveJdbcRepoBuilder.buildLanguagesRepo();
+  }
+
+  public static FeedbackCategoryRepo buildFeedbackCategoriesRepo() {
+    return ActiveJdbcRepoBuilder.buildFeedbackCategoriesRepo();
+  }
 
 }

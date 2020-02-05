@@ -4,11 +4,9 @@ import org.gooru.nucleus.handlers.lookup.processors.ProcessorContext;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.RepoBuilder;
 import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 
-/**
- * @author ashish on 2/1/17.
- */
-class StatesProcessor extends AbstractCommandProcessor {
-  public StatesProcessor(ProcessorContext context) {
+
+class FeedbackCategoriesProcessor extends AbstractCommandProcessor {
+  public FeedbackCategoriesProcessor(ProcessorContext context) {
     super(context);
   }
 
@@ -19,6 +17,6 @@ class StatesProcessor extends AbstractCommandProcessor {
 
   @Override
   protected MessageResponse processCommand() {
-    return RepoBuilder.buildStatesRepo().getStates(context.countryId(), context.keyword());
+    return RepoBuilder.buildFeedbackCategoriesRepo().getFeedbackCategories(context.contentType(), context.userCategoryId());
   }
 }
