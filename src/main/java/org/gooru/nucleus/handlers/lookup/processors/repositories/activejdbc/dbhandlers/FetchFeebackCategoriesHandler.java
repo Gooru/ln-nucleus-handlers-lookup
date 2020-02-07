@@ -1,9 +1,9 @@
 package org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.dbhandlers;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 import org.gooru.nucleus.handlers.lookup.constants.MessageConstants;
 import org.gooru.nucleus.handlers.lookup.processors.exceptions.MessageResponseWrapperException;
 import org.gooru.nucleus.handlers.lookup.processors.repositories.activejdbc.entities.AJEntityFeebackCategory;
@@ -19,27 +19,34 @@ import io.vertx.core.json.JsonObject;
 
 class FetchFeebackCategoriesHandler implements DBHandler {
 
-  private final String contentType;
   private final String userCategoryId;
   private final String[] RESPONSE_FIELDS = {"category_name", "feedback_type_id", "max_scale", "id"};
-  private final String LIST_FEEDBACK_CATEGORY_FLT_BY_QUERY =
-      "content_type = ? AND user_category_id = ?::smallint";
-  private static final Set<String> CONTENT_TYPES =
-      new HashSet<>(Arrays.asList("assessment", "collection", "assessment-external",
-          "collection-external", "offline-activity", "resource", "question", "course"));
+  private final String LIST_FEEDBACK_CATEGORY_FLT_BY_QUERY = "user_category_id = ?::smallint";
+  private static final Map<String, String> CONTENT_TYPES = new HashMap<>();
+  private final String CONTENT_TYPE = "content_type";
+
+  static {
+    CONTENT_TYPES.put("assessment", "assessments");
+    CONTENT_TYPES.put("collection", "collections");
+    CONTENT_TYPES.put("assessment-external", "externalAssessments");
+    CONTENT_TYPES.put("collection-external", "externalCollections");
+    CONTENT_TYPES.put("offline-activity", "offlineActivities");
+    CONTENT_TYPES.put("resource", "resources");
+    CONTENT_TYPES.put("question", "questions");
+    CONTENT_TYPES.put("course", "courses");
+    Collections.unmodifiableMap(CONTENT_TYPES);
+  }
   private static final Logger LOGGER = LoggerFactory.getLogger(FetchFeebackCategoriesHandler.class);
 
   private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
 
-  public FetchFeebackCategoriesHandler(String contentType, String userCategoryId) {
-    this.contentType = contentType;
+  public FetchFeebackCategoriesHandler(String userCategoryId) {
     this.userCategoryId = userCategoryId;
   }
 
   @Override
   public ExecutionResult<MessageResponse> checkSanity() {
     try {
-      validateContentType();
       validateUserCategoryId();
     } catch (MessageResponseWrapperException mrwe) {
       return new ExecutionResult<>(mrwe.getMessageResponse(),
@@ -51,24 +58,14 @@ class FetchFeebackCategoriesHandler implements DBHandler {
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    LazyList<AJEntityFeebackCategory> result =
-        AJEntityFeebackCategory.where(LIST_FEEDBACK_CATEGORY_FLT_BY_QUERY, contentType, userCategoryId);
+    LazyList<AJEntityFeebackCategory> resultSet =
+        AJEntityFeebackCategory.where(LIST_FEEDBACK_CATEGORY_FLT_BY_QUERY, userCategoryId);
     JsonObject response = new JsonObject().put(MessageConstants.RESP_FEEDBACK_CATEGORIES,
-        new JsonArray(result.toJson(true, RESPONSE_FIELDS)));
+        populateFeedbacks(resultSet));
     return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(response),
         ExecutionResult.ExecutionStatus.SUCCESSFUL);
   }
 
-  private void validateContentType() {
-    if (contentType == null || contentType.isEmpty()) {
-      throw new MessageResponseWrapperException(MessageResponseFactory
-          .createInvalidRequestResponse(RESOURCE_BUNDLE.getString("missing.content.type")));
-    }
-    if (!CONTENT_TYPES.contains(contentType)) {
-      throw new MessageResponseWrapperException(MessageResponseFactory
-          .createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.content.type")));
-    }
-  }
 
   private void validateUserCategoryId() {
     if (userCategoryId == null) {
@@ -77,8 +74,23 @@ class FetchFeebackCategoriesHandler implements DBHandler {
     }
   }
 
+  private JsonObject populateFeedbacks(LazyList<AJEntityFeebackCategory> resultSet) {
+    JsonObject responses = new JsonObject();
+    CONTENT_TYPES.forEach((contentType, value) -> {
+      JsonArray feedbacks = new JsonArray();
+      resultSet.forEach(feedback -> {
+        if (feedback.getString(CONTENT_TYPE).equalsIgnoreCase(contentType)) {
+          feedbacks.add(new JsonObject(feedback.toJson(true, RESPONSE_FIELDS)));
+        }
+      });
+      responses.put(value, feedbacks);
+    });
+    return responses;
+  }
+
   @Override
   public boolean handlerReadOnly() {
     return true;
   }
+
 }

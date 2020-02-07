@@ -8,9 +8,9 @@ import org.gooru.nucleus.handlers.lookup.processors.responses.MessageResponse;
 public class AJFeedbackCategoryRepo implements FeedbackCategoryRepo {
 
   @Override
-  public MessageResponse getFeedbackCategories(String contentType, String userCategoryId) {
+  public MessageResponse getFeedbackCategories(String userCategoryId) {
     return TransactionExecutor
-        .executeTransaction(DBHandlerBuilder.buildFeedbackCategoriesHandlerBuilder(contentType, userCategoryId));
+        .executeTransaction(DBHandlerBuilder.buildFeedbackCategoriesHandlerBuilder(userCategoryId));
   }
 
 }
