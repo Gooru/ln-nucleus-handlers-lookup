@@ -42,8 +42,7 @@ public final class DBHandlerBuilder {
     return new LanguagesHandler();
   }
 
-  public static DBHandler buildFeedbackCategoriesHandlerBuilder(String contentType,
-      String userCategoryId) {
-    return new FetchFeebackCategoriesHandler(contentType, userCategoryId);
+  public static DBHandler buildFeedbackCategoriesHandlerBuilder(String userCategoryId) {
+    return new FetchFeebackCategoriesHandler(userCategoryId);
   }
 }

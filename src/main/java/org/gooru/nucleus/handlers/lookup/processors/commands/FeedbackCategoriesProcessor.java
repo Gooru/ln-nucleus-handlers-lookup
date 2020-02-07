@@ -17,6 +17,6 @@ class FeedbackCategoriesProcessor extends AbstractCommandProcessor {
 
   @Override
   protected MessageResponse processCommand() {
-    return RepoBuilder.buildFeedbackCategoriesRepo().getFeedbackCategories(context.contentType(), context.userCategoryId());
+    return RepoBuilder.buildFeedbackCategoriesRepo().getFeedbackCategories(context.userCategoryId());
   }
 }
