@@ -21,7 +21,7 @@ class FetchFeebackCategoriesHandler implements DBHandler {
 
   private final String userCategoryId;
   private final String[] RESPONSE_FIELDS = {"category_name", "feedback_type_id", "max_scale", "id"};
-  private final String LIST_FEEDBACK_CATEGORY_FLT_BY_QUERY = "user_category_id = ?::smallint";
+  private final String LIST_FEEDBACK_CATEGORY_FLT_BY_QUERY = "user_category_id = ?::smallint  AND is_visible = true";
   private static final Map<String, String> CONTENT_TYPES = new HashMap<>();
   private final String CONTENT_TYPE = "content_type";
 
